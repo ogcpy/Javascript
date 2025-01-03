@@ -1,5 +1,175 @@
+/* General Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 * {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: #292929;
+    color: white;
+}
+
+/* Universal Styling */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+input, button, textarea, select {
+    font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+#root, #__next {
+    isolation: isolate;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+}
+h1 {
+    font-size: 50px;
+    color: white;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+button {
+    border-radius: 20px;
+    border: none;
+    font-size: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+button:hover {
+    background-color: gray;
+    color: white;
+}
+button:active {
+    background-color: rgb(192, 192, 192);
+}
+
+.main {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    text-align: center;
+}
+.card, .book-card {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: aliceblue;
+    color: black;
+    padding: 10px;
+}
+.book-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 200px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+#library-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+}
+
+form {
+    background-color: gray;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    gap: 10px;
+    padding: 20px;
+    display: none;
+}
+form h2 {
+    justify-self: center;
+    grid-column: 1 / -1;
+}
+form label {
+    justify-self: end;
+    align-self: center;
+}
+form input {
+    justify-self: start;
+    padding: 5px;
+}
+form button {
+    padding: 10px 20px;
+    grid-column: 1 / -1;
+    justify-self: center;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+form button:hover {
+    background-color: black;
+}
+
+.remove-book {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    top: 20px;
+    right: 10px;
+}
+
+.book-card {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 200px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+
+footer {
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 300;
+    background-color: gray;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
