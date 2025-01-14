@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Outfit:wght@100..900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  font-family: Outfit;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+a {
+  color: #ffff;
+}
+
+body {
+  background-color: #FBF5DD;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+h1 {
+  font-family: Oswald;
+  font-size: 60px;
+  text-align: center;
+  color: #16404D;
+  padding: 10px;
+}
+
+nav {
+  background-color: #A6CDC6;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-self: center;
+  padding: 10px;
+  border-radius: 20px;
+  width: 90%;
+}
+
+button {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: #A6CDC6;
+  color: #ffff;
+  font-size: 25px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #16404D;
+  transition: 0.5s ease;
+}
+
+h2 {
+  color: #DDA853;
+  font-size: 35px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+#hero {
+  border-radius: 20px;
+  padding: 5px;
+  display: block;
+  width: 75%;
+  margin: auto;
+}
+
+.opening-times {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.opening-times li {
+  list-style: none;
+  font-size: 20px;
+}
+
+.contact {
+  margin: 10px 50px;
+  text-align: center;
+  padding: 10px;
+  font-size: 20px;
+  color: #A6CDC6;
+  background-color: #16404D;
+  border-radius: 20px;
+}
+
+footer {
+  color: #ffff;
+  background-color: #DDA853;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 5px;
+  padding: 10px;
+  width: 100%;
+  height: 50px;
+}
+
+#github {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  -webkit-filter: invert(100%);
+}
+
+.menu {
+  margin: 20px;
+  padding: 10px;
+}
+
+.menu h1 {
+  color: #a6834b;
+  margin-bottom: 20px;
+}
+
+.menu-category {
+  margin-bottom: 30px;
+}
+
+.menu-category h2 {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.menu-item {
+  margin: 10px 0;
+}
+
+.menu-item h3 {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.menu-price {
+  font-weight: bold;
+  color: #666;
+}
+
+.menu-item p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
