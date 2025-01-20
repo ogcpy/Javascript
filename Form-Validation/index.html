@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form with Inline Validation</title>
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input:invalid {
+      border-color: red;
+    }
+    input:valid {
+      border-color: green;
+    }
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      height: 15px;
+    }
+    .success-message {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <form id="userForm" novalidate>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <p class="error-message" id="emailError"></p>
+    </div>
+    <div class="form-group">
+      <label for="country">Country</label>
+      <input type="text" id="country" name="country" required>
+      <p class="error-message" id="countryError"></p>
+    </div>
+    <div class="form-group">
+      <label for="zip">Zip Code</label>
+      <input type="text" id="zip" name="zip" required pattern="\\d{5}">
+      <p class="error-message" id="zipError"></p>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <p class="error-message" id="passwordError"></p>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+      <p class="error-message" id="confirmPasswordError"></p>
+    </div>
+    <button type="submit">Submit</button>
+    <p class="success-message" id="successMessage"></p>
+  </form>
+
+  <script src="form-validation.js"></script>
+</body>
+</html>
