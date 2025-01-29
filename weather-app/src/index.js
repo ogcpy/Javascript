@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=uk&key=${apiKey}`
             
             const response = await fetch (apiUrl, {mode: 'cors'})
+            console.log(response)
             const weatherData = await response.json()
 
             loadToday(weatherData);
