@@ -1,9 +1,9 @@
 class HashMap {
-  constructor(initialCapacity = 16, loadFactor = 0.75) {
-    this.capacity = initialCapacity;
+  constructor(loadFactor = 0.75, initialCapacity = 16) {
     this.loadFactor = loadFactor;
+    this.capacity = initialCapacity;
+    this.buckets = Array.from({ length: this.capacity }, () => []);
     this.size = 0;
-    this.buckets = new Array(this.capacity).fill(null).map(() => []);
   }
 
   hash(key) {
@@ -20,26 +20,44 @@ class HashMap {
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
     }
+
     const bucket = this.buckets[index];
-    for (let pair of bucket) {
-      if (pair[0] === key) {
-        pair[1] = value;
+    for (const entry of bucket) {
+      if (entry.key === key) {
+        entry.value = value; // Update existing key
         return;
       }
     }
-    bucket.push([key, value]);
+
+    // Add new entry
+    bucket.push({ key, value });
     this.size++;
 
+    // Check if resize is needed
     if (this.size / this.capacity >= this.loadFactor) {
       this.resize();
+    }
+  }
+
+  resize() {
+    const oldBuckets = this.buckets;
+    this.capacity *= 2;
+    this.buckets = Array.from({ length: this.capacity }, () => []);
+    this.size = 0;
+
+    // Rehash all entries
+    for (const bucket of oldBuckets) {
+      for (const entry of bucket) {
+        this.set(entry.key, entry.value);
+      }
     }
   }
 
   get(key) {
     const index = this.hash(key);
     const bucket = this.buckets[index];
-    for (let pair of bucket) {
-      if (pair[0] === key) return pair[1];
+    for (const entry of bucket) {
+      if (entry.key === key) return entry.value;
     }
     return null;
   }
@@ -51,14 +69,11 @@ class HashMap {
   remove(key) {
     const index = this.hash(key);
     const bucket = this.buckets[index];
-    for (let i = 0; i < bucket.length; i++) {
-      if (bucket[i][0] === key) {
-        bucket.splice(i, 1);
-        this.size--;
-        return true;
-      }
-    }
-    return false;
+    const entryIndex = bucket.findIndex((entry) => entry.key === key);
+    if (entryIndex === -1) return false;
+    bucket.splice(entryIndex, 1);
+    this.size--;
+    return true;
   }
 
   length() {
@@ -66,33 +81,95 @@ class HashMap {
   }
 
   clear() {
-    this.buckets = new Array(this.capacity).fill(null).map(() => []);
+    this.buckets = Array.from({ length: this.capacity }, () => []);
     this.size = 0;
   }
 
   keys() {
-    return this.buckets.flat().map(pair => pair[0]);
+    const keys = [];
+    for (const bucket of this.buckets) {
+      for (const entry of bucket) {
+        keys.push(entry.key);
+      }
+    }
+    return keys;
   }
 
   values() {
-    return this.buckets.flat().map(pair => pair[1]);
+    const values = [];
+    for (const bucket of this.buckets) {
+      for (const entry of bucket) {
+        values.push(entry.value);
+      }
+    }
+    return values;
   }
 
   entries() {
-    return this.buckets.flat();
-  }
-
-  resize() {
-    const oldBuckets = this.buckets;
-    this.capacity *= 2;
-    this.buckets = new Array(this.capacity).fill(null).map(() => []);
-    this.size = 0;
-
-    for (const bucket of oldBuckets) {
-      for (const [key, value] of bucket) {
-        this.set(key, value);
+    const entries = [];
+    for (const bucket of this.buckets) {
+      for (const entry of bucket) {
+        entries.push([entry.key, entry.value]);
       }
     }
+    return entries;
   }
 }
 
+class HashSet extends HashMap {
+  constructor(loadFactor = 0.75, initialCapacity = 16) {
+    super(loadFactor, initialCapacity);
+  }
+
+  add(key) {
+    super.set(key, true); // Value is irrelevant; we only track keys
+  }
+
+  has(key) {
+    return super.has(key);
+  }
+
+  remove(key) {
+    return super.remove(key);
+  }
+
+  entries() {
+    return super.keys(); // Return keys only
+  }
+}
+
+const test = new HashMap(0.75);
+
+// Populate the hash map
+test.set("apple", "red");
+test.set("banana", "yellow");
+test.set("carrot", "orange");
+test.set("dog", "brown");
+test.set("elephant", "gray");
+test.set("frog", "green");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
+test.set("lion", "golden");
+
+console.log("Initial Entries:", test.entries());
+console.log("Size Before Resize:", test.length()); // 12
+
+// Trigger resize by adding one more entry
+test.set("moon", "silver");
+
+console.log("Capacity After Resize:", test.capacity); // 32
+console.log("Size After Resize:", test.length()); // 13
+console.log("Load Factor After Resize:", test.size / test.capacity); // ~0.406
+
+// Test other methods
+console.log("Get 'banana':", test.get("banana")); // "yellow"
+console.log("Has 'dog':", test.has("dog")); // true
+test.remove("hat");
+console.log("Has 'hat' After Removal:", test.has("hat")); // false
+
+// Clear the hash map
+test.clear();
+console.log("Size After Clear:", test.length()); // 0
