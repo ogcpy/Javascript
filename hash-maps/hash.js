@@ -1,175 +1,207 @@
 class HashMap {
-  constructor(loadFactor = 0.75, initialCapacity = 16) {
+  constructor(capacity = 16, loadFactor = 0.75) {
+    this.capacity = capacity;
     this.loadFactor = loadFactor;
-    this.capacity = initialCapacity;
-    this.buckets = Array.from({ length: this.capacity }, () => []);
+    this.buckets = new Array(capacity);
     this.size = 0;
   }
 
+  // Hash function to create a hash code from a key
   hash(key) {
     let hashCode = 0;
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
+      hashCode = primeNumber * hashCode + key.charCodeAt(i);
     }
-    return hashCode;
+    return hashCode % this.capacity;
   }
 
-  set(key, value) {
-    const index = this.hash(key);
+  // Method to ensure we throw an error for invalid index access
+  checkIndex(index) {
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
     }
+  }
 
-    const bucket = this.buckets[index];
-    for (const entry of bucket) {
-      if (entry.key === key) {
-        entry.value = value; // Update existing key
+  // Method to handle collisions using chaining (linked lists)
+  set(key, value) {
+    const index = this.hash(key);
+    if (!this.buckets[index]) {
+      this.buckets[index] = [];
+    }
+
+    // Check if key already exists, if it does, update the value
+    for (let i = 0; i < this.buckets[index].length; i++) {
+      const [existingKey] = this.buckets[index][i];
+      if (existingKey === key) {
+        this.buckets[index][i] = [key, value];
         return;
       }
     }
 
-    // Add new entry
-    bucket.push({ key, value });
+    // Add new key-value pair if key doesn't exist
+    this.buckets[index].push([key, value]);
     this.size++;
 
-    // Check if resize is needed
-    if (this.size / this.capacity >= this.loadFactor) {
+    // Check if load factor exceeded and resize the hash map if needed
+    if (this.size / this.capacity > this.loadFactor) {
       this.resize();
     }
   }
 
+  // Method to resize the hash map when load factor exceeds
   resize() {
-    const oldBuckets = this.buckets;
-    this.capacity *= 2;
-    this.buckets = Array.from({ length: this.capacity }, () => []);
-    this.size = 0;
+    const newCapacity = this.capacity * 2;
+    const newBuckets = new Array(newCapacity);
 
-    // Rehash all entries
-    for (const bucket of oldBuckets) {
-      for (const entry of bucket) {
-        this.set(entry.key, entry.value);
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          const [key, value] = this.buckets[i][j];
+          const newIndex = this.hash(key) % newCapacity;
+          if (!newBuckets[newIndex]) {
+            newBuckets[newIndex] = [];
+          }
+          newBuckets[newIndex].push([key, value]);
+        }
       }
     }
+
+    this.buckets = newBuckets;
+    this.capacity = newCapacity;
   }
 
+  // Get the value for a key
   get(key) {
     const index = this.hash(key);
-    const bucket = this.buckets[index];
-    for (const entry of bucket) {
-      if (entry.key === key) return entry.value;
+    if (!this.buckets[index]) return null;
+
+    for (let i = 0; i < this.buckets[index].length; i++) {
+      const [existingKey, value] = this.buckets[index][i];
+      if (existingKey === key) {
+        return value;
+      }
     }
+
     return null;
   }
 
+  // Check if the hash map contains a key
   has(key) {
-    return this.get(key) !== null;
+    const index = this.hash(key);
+    if (!this.buckets[index]) return false;
+
+    for (let i = 0; i < this.buckets[index].length; i++) {
+      const [existingKey] = this.buckets[index][i];
+      if (existingKey === key) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
+  // Remove a key-value pair
   remove(key) {
     const index = this.hash(key);
-    const bucket = this.buckets[index];
-    const entryIndex = bucket.findIndex((entry) => entry.key === key);
-    if (entryIndex === -1) return false;
-    bucket.splice(entryIndex, 1);
-    this.size--;
-    return true;
+    if (!this.buckets[index]) return false;
+
+    for (let i = 0; i < this.buckets[index].length; i++) {
+      const [existingKey] = this.buckets[index][i];
+      if (existingKey === key) {
+        this.buckets[index].splice(i, 1);
+        this.size--;
+        return true;
+      }
+    }
+
+    return false;
   }
 
+  // Get the length of the hash map
   length() {
     return this.size;
   }
 
+  // Clear all the key-value pairs
   clear() {
-    this.buckets = Array.from({ length: this.capacity }, () => []);
+    this.buckets = new Array(this.capacity);
     this.size = 0;
   }
 
+  // Get all the keys
   keys() {
-    const keys = [];
-    for (const bucket of this.buckets) {
-      for (const entry of bucket) {
-        keys.push(entry.key);
+    const result = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          result.push(this.buckets[i][j][0]);
+        }
       }
     }
-    return keys;
+    return result;
   }
 
+  // Get all the values
   values() {
-    const values = [];
-    for (const bucket of this.buckets) {
-      for (const entry of bucket) {
-        values.push(entry.value);
+    const result = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          result.push(this.buckets[i][j][1]);
+        }
       }
     }
-    return values;
+    return result;
   }
 
+  // Get all the key-value pairs
   entries() {
-    const entries = [];
-    for (const bucket of this.buckets) {
-      for (const entry of bucket) {
-        entries.push([entry.key, entry.value]);
+    const result = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) {
+        for (let j = 0; j < this.buckets[i].length; j++) {
+          result.push(this.buckets[i][j]);
+        }
       }
     }
-    return entries;
+    return result;
   }
 }
 
-class HashSet extends HashMap {
-  constructor(loadFactor = 0.75, initialCapacity = 16) {
-    super(loadFactor, initialCapacity);
-  }
+// Test the HashMap class
+const test = new HashMap();
 
-  add(key) {
-    super.set(key, true); // Value is irrelevant; we only track keys
-  }
+test.set('apple', 'red');
+test.set('banana', 'yellow');
+test.set('carrot', 'orange');
+test.set('dog', 'brown');
+test.set('elephant', 'gray');
+test.set('frog', 'green');
+test.set('grape', 'purple');
+test.set('hat', 'black');
+test.set('ice cream', 'white');
+test.set('jacket', 'blue');
+test.set('kite', 'pink');
+test.set('lion', 'golden');
 
-  has(key) {
-    return super.has(key);
-  }
+console.log(test.length()); // Should print the size of the map
+console.log(test.get('apple')); // Should print 'red'
 
-  remove(key) {
-    return super.remove(key);
-  }
+test.set('apple', 'green'); // Overwrite value
+console.log(test.get('apple')); // Should print 'green'
 
-  entries() {
-    return super.keys(); // Return keys only
-  }
-}
+test.set('moon', 'silver'); // This should trigger a resize
+console.log(test.capacity); // Should print the new capacity (doubled)
+console.log(test.length()); // Should print the size of the map
 
-const test = new HashMap(0.75);
+console.log(test.entries()); // Should print the key-value pairs
+console.log(test.keys()); // Should print all keys
+console.log(test.values()); // Should print all values
 
-// Populate the hash map
-test.set("apple", "red");
-test.set("banana", "yellow");
-test.set("carrot", "orange");
-test.set("dog", "brown");
-test.set("elephant", "gray");
-test.set("frog", "green");
-test.set("grape", "purple");
-test.set("hat", "black");
-test.set("ice cream", "white");
-test.set("jacket", "blue");
-test.set("kite", "pink");
-test.set("lion", "golden");
+test.remove('banana'); // Remove 'banana'
+console.log(test.has('banana')); // Should print false
 
-console.log("Initial Entries:", test.entries());
-console.log("Size Before Resize:", test.length()); // 12
+test.clear(); // Clear the map
+console.log(test.length()); // Should print 0
 
-// Trigger resize by adding one more entry
-test.set("moon", "silver");
-
-console.log("Capacity After Resize:", test.capacity); // 32
-console.log("Size After Resize:", test.length()); // 13
-console.log("Load Factor After Resize:", test.size / test.capacity); // ~0.406
-
-// Test other methods
-console.log("Get 'banana':", test.get("banana")); // "yellow"
-console.log("Has 'dog':", test.has("dog")); // true
-test.remove("hat");
-console.log("Has 'hat' After Removal:", test.has("hat")); // false
-
-// Clear the hash map
-test.clear();
-console.log("Size After Clear:", test.length()); // 0

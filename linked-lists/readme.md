@@ -14,7 +14,7 @@ A JavaScript implementation of a singly linked list data structure. Includes met
 
 ## How to Run
 1. Clone the repository.
-2. Open `index.html` in your browser or run the script using Node.js.
+2. Run the script using Node.js.
 
 ## Example Usage
 ```javascript
