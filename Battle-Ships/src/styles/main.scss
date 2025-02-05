@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Tektur:wght@400..900&family=Trade+Winds&display=swap');
+
 *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -9,6 +11,9 @@
   body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background-color: #023047;
+    font-family: Bangers;
+    color: #fff;
   }
   
   img, picture, video, canvas, svg {
@@ -35,109 +40,214 @@
     isolation: isolate;
   }
 
- /* General body styling */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f0f8ff;
-  margin: 0;
+  #loadPage {
+    display: grid;
+    grid-template-areas: "title title title"
+                          "title title title"
+                          "computer vs player";
+    padding: 30px;
+    gap: 60px;
+  }
+
+  #content {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+  }
+
+  h1 {
+    color: #FB8500;
+    font-size: 9rem;
+    font-family: Tektur;
+    grid-area: title;
+    text-align: center;
+  }
+
+  #vsText {
+    font-family: Trade Winds;
+    color: #FFB703;
+    font-size: 5rem;
+    grid-area: vs;
+    text-align: center;
+    align-self: center;
+  }
+
+  #npcBtn {
+  grid-area: computer;
+  font-size: 4rem;
+  background-color: #8ECAE6;
   color: #ffff;
-  padding: 0;
-  text-align: center;
-}
-
-/* Title */
-h1 {
-  color: #003366;
-  margin-top: 20px;
-  font-size: 2.5em;
-}
-
-
-/* Game container */
-#game-container {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 40px;
-  width: 100%;
-}
-
-/* Player boards */
-.gameboard {
-  display: grid;
-  grid-template-columns: repeat(10, 40px);
-  grid-template-rows: repeat(10, 40px);
-  gap: 5px;
-  margin: 20px;
-  background-color: #003366;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-h2 {
-  font-size: 3rem;
-  grid-row: 5 / 6;
-  grid-column: 1 / 10;
-}
-
-/* Individual cell styling */
-.cell {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  background-color: #d3d3d3;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+  outline: none;
+  border: #219EBC 3px solid;
+  border-radius: 20px;
+  }
 
-/* Hover effect for cells */
-.cell:hover {
-  background-color: #b0e0e6;
-}
+  #npcBtn:hover{
+    background-color: #219EBC;
+    transition: 0.5s ease;
+  }
 
-/* Hit/miss styling */
-.hit {
-  background-color: #ff4d4d;
-}
-
-.miss {
-  background-color: #f0e68c;
-}
-
-/* Game info and buttons */
-#game-info {
-  margin-top: 30px;
-  font-size: 1.2em;
-  color: #003366;
-}
-
-/* Buttons styling */
-button {
-  padding: 15px 30px;
-  font-size: 1.1em;
-  background-color: #003366;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  #twoPlayerBtn {
+  grid-area: player;
+  font-size: 4rem;
+  background-color: #8ECAE6;
+  color: #ffff;
   cursor: pointer;
-  margin: 10px;
-  transition: background-color 0.2s ease;
-}
+  outline: none;
+  border: #219EBC 3px solid;
+  border-radius: 20px;
+  }
 
-button:hover {
-  background-color: #00509e;
-}
+  #twoPlayerBtn:hover {
+    background-color: #219EBC;
+    transition: 0.5s ease;
+  }
 
-/* Current player text styling */
-#current-player {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-top: 20px;
-}
+  footer {
+    color: #ffff;
+    background-color: #DDA853;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
 
-/* Make the game boards responsive */
-@media (max-width: 800px) {
-  #game-container {
+    
+  }
+
+  footer {
+    display: flex;
+    color: #ffff;
+    background-color: #219EBC;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem; 
+    a {
+      color: #ffff;
+      text-decoration: none;
+    }
+  }
+
+  #github {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    -webkit-filter: invert(100%);
+  }
+
+  #alertPlayer {
+    text-align: center;
+    margin-top: 30px;
+    font-family: TekTur;
+  }
+
+  #boardContainer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .gridContainer {
+    display: flex;
     flex-direction: column;
     align-items: center;
   }
+  
+  h2 {
+    font-size: 2rem;
+    color: #FB8500;
+    margin-bottom: 20px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 2px;
+    background-color: #023047;
+    border: 3px solid #219EBC;
+    padding: 5px;
+  }
+  
+  .cell {
+    width: 40px;
+    height: 40px;
+    background-color: #8ECAE6;
+    border: 1px solid #FFB703;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .cell.occupied {
+    background-color: #FFB703;
+  }
+  
+  
+  .cell.miss {
+    background-color: #264653;
+  }
+
+  .cell.hidden {
+    background-color: #8ECAE6;
+    border: 1px solid #FFB703;
+  }
+
+  .cell:hover {
+    background-color: #219EBC;
+  }
+  .cell.hit {
+    background-color: #D62828;
+  }
+
+  #shipContainer {
+  display: flex;
+  gap: 50px;
+  margin-top: 50px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
+.shipWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+}
+.ship {
+  background-color: #FFB703;
+  border: 2px solid #FB8500;
+  padding: 10px;
+  cursor: grab;
+  text-align: center;
+  font-size: 0.7rem;
+  font-family: Tektur;
+  transition: transform 0.3s ease;
+}
+.ship.rotated {
+  transform: rotate(90deg);
+}
+.rotateBtn {
+  background-color: #219EBC;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.rotateBtn:hover {
+  background-color: #FFB703;
+}
+
+

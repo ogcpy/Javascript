@@ -48,9 +48,9 @@ module.exports = {
     },
     plugins : [
         new HtmlWebpackPlugin({
-            title: 'Battle Ships',
+            title: 'Webpack App',
             filename: 'index.html',
-            template: 'src/index.html',
+            template: 'src/template.html',
         }),
         new BundleAnalyzerPlugin(),
     ],
